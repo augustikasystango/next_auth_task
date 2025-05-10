@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-
 export async function POST(req: NextRequest) {
     const { email, password } = await req.json();
     try {
@@ -8,16 +7,15 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'Cannot fetch users', response });
         }
         const users = await response.json();
-        const matchedUser = users.find((user: any) => user.password === password);
+        const matchedUser = users.find((user) => user.password === password);
         if (!matchedUser) {
             return NextResponse.json({ message: 'Invalid Credentials' }, { status: 401 });
         }
-        return {
+        return NextResponse.json({
             id: matchedUser.id,
             email: matchedUser.email,
             name: matchedUser.name,
-
-        }
+        });
 
     }catch(error)
     {

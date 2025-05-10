@@ -6,7 +6,8 @@ export async function authorizeUser(email:string, password:string) {
             body: JSON.stringify({ email, password }),
         });
         if (!res.ok) {
-            throw new Error(`Error fetching user.Please try again`);
+            console.log(await res.text());
+            throw new Error("User fetch failed");
 
         }
         const user = await res.json();
