@@ -11,6 +11,8 @@ export default async function ProfilePage()
     return (
         <>
             <h1>Profile Page </h1>
+             <h1>Welcome, {session.user?.email}!</h1>
+             
         </>
     )
 
