@@ -10,7 +10,6 @@
       "email": "augustika24@gmail.com",
       "password": "june24"
     },
-    
     {
       "id": "d7be",
       "email": "harsh24@gmail.com",
@@ -25,6 +24,11 @@
       "id": "883c",
       "email": "yash@gmail.com",
       "password": "cricket"
+    },
+    {
+      "id": "03d1",
+      "email": "augustika24@gmail.com",
+      "name": "Augustika Pal"
     }
   ]
 }
