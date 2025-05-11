@@ -7,20 +7,18 @@ export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
         CredentialsProvider({
-          
-            async authorize(credentials,req) {
-                
-                if (!credentials?.email || !credentials?.password)
-                    {return null;}
-                const user =  await authorizeUser(credentials.email,credentials.password);
-                console.log("Returned user : ",user);
+            async authorize(credentials) {
 
-                if(user && user.id)
-                {
+                if (!credentials?.email || !credentials?.password) { return null; }
+                const user = await authorizeUser(credentials.email, credentials.password);
+                console.log("Returned user : ", user);
+
+                if (user && user.id) {
                     return user;
                 }
                 return null;
             },
+            credentials: undefined
         }),
     ],
     session: {

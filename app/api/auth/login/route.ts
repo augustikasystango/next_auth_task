@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-export async function POST(req: NextRequest) {
-    const { email, password } = await req.json();
+export async function GET(req: NextRequest) {
+    
+    const { searchParams } = new URL(req.url);
+    const email = searchParams.get('email');
+    const password = searchParams.get('password');
+
+    if (!email || !password) {
+        return NextResponse.json({ message: 'Missing credentials' }, { status: 400 });
+    }
     try {
         const response = await fetch(`http://localhost:8000/users?email=${email}`);
         if (!response.ok) {
