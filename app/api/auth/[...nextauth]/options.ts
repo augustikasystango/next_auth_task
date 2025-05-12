@@ -2,6 +2,7 @@ import { authorizeUser } from "@/lib/auth";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import { saveUserIfNotExists } from "@/lib/auth";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -42,28 +43,42 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  callbacks: {
-    async signIn({ user }) {
-      try {
-        const res = await fetch("http://localhost:8000/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+  
+    
+    //   try {
+    //     const res = await fetch("http://localhost:8000/users", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         email: user.email,
+    //         name: user.name,
+    //       }),
+    //     });
+
+    //     if (!res.ok) {
+    //       console.error("Failed to save user:", await res.text());
+    //     }
+    //   } catch (err) {
+    //     console.error("Error saving user to db.json:", err);
+    //   }
+
+    //   return true;
+    // },
+    callbacks: {
+      async signIn({ user }) {
+        try {
+          await saveUserIfNotExists({
             email: user.email,
             name: user.name,
-          }),
-        });
-
-        if (!res.ok) {
-          console.error("Failed to save user:", await res.text());
+          });
+        } catch (err) {
+          console.error("Error saving user to db.json:", err);
         }
-      } catch (err) {
-        console.error("Error saving user to db.json:", err);
-      }
-
-      return true;
+    
+        return true;
+      },
     },
-  },
+  
 };

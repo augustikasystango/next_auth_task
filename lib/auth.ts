@@ -21,6 +21,8 @@ export async function authorizeUser(email: string, password: string) {
     return null;
   }
 }
+
+
 export async function createUser(email: string, password: string) {
   try {
     const res = await fetch(`http://localhost:8000/users`, {
@@ -40,5 +42,18 @@ export async function createUser(email: string, password: string) {
   } catch (error) {
     console.log("Login error", error);
     return null;
+  }
+}
+
+export async function saveUserIfNotExists(user: { email: string; name: string }) {
+  const checkRes = await fetch(`http://localhost:8000/users?email=${user.email}`);
+  const existingUsers = await checkRes.json();
+
+  if (existingUsers.length === 0) {
+    return await fetch("http://localhost:8000/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    });
   }
 }

@@ -11,7 +11,6 @@ export  async function POST(req:NextRequest)
         if(existingUser)
         {
             return NextResponse.json({message:"User already exists"},{status:409});
-
         }
 
         //ab create krdete h
