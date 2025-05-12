@@ -1,11 +1,11 @@
+
+//this is for login purpose
 export async function authorizeUser(email: string, password: string) {
   try {
     const res = await fetch(
       `http://localhost:3000/api/auth/login?email=${email}&password=${password}`,
       {
         method: "GET",
-       // headers: { "Content-Type": "application/json" },
-        // body: JSON.stringify({ email, password }),
       }
     );
     if (!res.ok) {
@@ -23,9 +23,10 @@ export async function authorizeUser(email: string, password: string) {
 }
 
 
+//this is for signup
 export async function createUser(email: string, password: string) {
   try {
-    const res = await fetch(`http://localhost:8000/users`, {
+    const res = await fetch(`http://localhost:3000/api/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,15 +46,15 @@ export async function createUser(email: string, password: string) {
   }
 }
 
-export async function saveUserIfNotExists(user: { email: string; name: string }) {
-  const checkRes = await fetch(`http://localhost:8000/users?email=${user.email}`);
+export async function saveUserIfNotExists( email: string, name: string ) {
+  const checkRes = await fetch(`http://localhost:3000/api/auth/login`);
   const existingUsers = await checkRes.json();
 
   if (existingUsers.length === 0) {
     return await fetch("http://localhost:8000/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
+      body: JSON.stringify(email,name),
     });
   }
 }

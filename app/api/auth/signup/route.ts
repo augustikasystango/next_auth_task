@@ -7,13 +7,10 @@ export  async function POST(req:NextRequest)
 
         const existingUsers = await fetch(`http://localhost:8000/users?email=${email}`);
         const existingUser = await existingUsers.json();
+        if (existingUser.length > 0) {
+            return NextResponse.json({ message: "User already exists" }, { status: 409 });
+          }
 
-        if(existingUser)
-        {
-            return NextResponse.json({message:"User already exists"},{status:409});
-        }
-
-        //ab create krdete h
         const createUserResult = await fetch(`http://localhost:8000/users`,{
             method : 'POST',
             headers:{
